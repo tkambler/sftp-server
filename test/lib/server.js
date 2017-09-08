@@ -35,6 +35,8 @@ gjbj2tDc65zTSnw9fHbz9gUkANNs+v8AvY8OIJ8CBqTcPusvqsdkxfYl4IHwGxjP
 
 const server = new SFTPServer({
     'port': 4000,
+    'api_port': 8000,
+    'api_key': 'yYNR8xeUGtcim7XYaUTsdfmkNuKxLHjw77MbPMkZzKoNdsAzyMryVLJEzjVMHpHM',
     'hostKeys': [
         privateKey
     ],

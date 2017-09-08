@@ -16,9 +16,12 @@
   "dependencies": {
     "bluebird": "^3.5.0",
     "eventemitter2": "^4.1.2",
+    "express": "^4.15.4",
     "fs-extra": "^4.0.1",
     "lodash": "^4.17.4",
     "moment": "^2.18.1",
+    "request": "^2.81.0",
+    "request-promise": "^4.2.1",
     "ssh2": "^0.5.5",
     "ssh2-streams": "^0.1.19",
     "underscore.string": "^3.3.4"
