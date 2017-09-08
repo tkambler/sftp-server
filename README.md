@@ -4,6 +4,8 @@
 
 A Node.js-based SFTP server with an integrated REST API for querying users / files. Provides a customizable authentication strategy. Emits various events as file changes occur, allowing you to notify third-party services.
 
+Useful when you need to provide clients with a standardized interface for submitting files, data feeds, etc... to you.
+
 *This is a work in progress.*
 
 
@@ -64,6 +66,7 @@ server.listen();
 - Optional file-based event log (e.g. Winston)
 - Additional work on REST API
 - Improved support for various SFTP commands (FSTAT, etc...)
+- Docker image
 
 ## Related Resources
 
