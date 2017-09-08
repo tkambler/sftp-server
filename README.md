@@ -48,6 +48,16 @@ server.on('upload_complete', (data) => {
 server.listen();
 ```
 
+## REST API
+
+### Health Check
+
+    $ curl -X GET http://127.0.0.1:8000/api/ping
+
+### Fetch Users
+
+    $ curl -X GET --header "x-token: yYNR8xeUGtcim7XYaUTsdfmkNuKxLHjw77MbPMkZzKoNdsAzyMryVLJEzjVMHpHM" http://127.0.0.1:8000/api/users
+
 ## ToDo
 
 - Additional tests
