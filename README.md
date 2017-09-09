@@ -69,6 +69,13 @@ server.listen();
 
     $ curl -X GET --header "x-token: yYNR8xeUGtcim7XYaUTsdfmkNuKxLHjw77MbPMkZzKoNdsAzyMryVLJEzjVMHpHM" http://127.0.0.1:8000/api/users
 
+## Docker
+
+```
+$ docker build -t sftp-server:latest .
+$ docker run --rm -v $(pwd)/example/server.js:/opt/sftp-server/example/server.js sftp-server:latest
+```
+
 ## ToDo
 
 - Additional tests
