@@ -4,13 +4,15 @@
   "description": "",
   "main": "lib/server.js",
   "scripts": {
-    "test": "mocha"
+    "test": "mocha",
+    "dev": "DEBUG=sftp:* nodemon example/server.js"
   },
   "author": "",
   "license": "ISC",
   "devDependencies": {
     "debug": "^3.0.1",
     "mocha": "^3.5.0",
+    "nodemon": "^1.12.0",
     "supports-color": "^4.4.0"
   },
   "dependencies": {

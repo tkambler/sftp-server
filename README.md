@@ -68,6 +68,15 @@ server.listen();
 - Improved support for various SFTP commands (FSTAT, etc...)
 - Docker image
 
+## Development
+
+Install dependencies then launch the included example instance via [Nodemon](https://nodemon.io/):
+
+```
+$ npm i
+$ npm run dev
+```
+
 ## Related Resources
 
 - [ssh2](https://github.com/mscdex/ssh2)
