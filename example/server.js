@@ -21,7 +21,16 @@ const server = new SFTPServer({
             });
     },
     'api_port': 8000,
-    'api_key': 'yYNR8xeUGtcim7XYaUTsdfmkNuKxLHjw77MbPMkZzKoNdsAzyMryVLJEzjVMHpHM'
+    'api_key': 'yYNR8xeUGtcim7XYaUTsdfmkNuKxLHjw77MbPMkZzKoNdsAzyMryVLJEzjVMHpHM',
+    'log': {
+        'console': {
+            'enabled': false
+        },
+        'file': {
+            'enabled': true,
+            'filename': '/var/log/sftp-server/log.json'
+        }
+    }
 });
 
 server.on('listening', (data) => {

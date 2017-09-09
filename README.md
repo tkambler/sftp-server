@@ -32,6 +32,15 @@ const server = new SFTPServer({
                     throw new Error();
                 }
             });
+    },
+    'log': {
+        'console': {
+            'enabled': false
+        },
+        'file': {
+            'enabled': true,
+            'filename': '/var/log/sftp-server/log.json'
+        }
     }
 });
 
@@ -63,18 +72,26 @@ server.listen();
 ## ToDo
 
 - Additional tests
-- Optional file-based event log (e.g. Winston)
+- Additional logging
 - Additional work on REST API
 - Improved support for various SFTP commands (FSTAT, etc...)
 - Docker image
 
 ## Development
 
-Install dependencies then launch the included example instance via [Nodemon](https://nodemon.io/):
+### Launching the Example Server
+
+Install dependencies then launch the included example instance ([./example/server.js](./example/server.js)) via [Nodemon](https://nodemon.io/):
 
 ```
 $ npm i
 $ npm run dev
+```
+
+### Tests
+
+```
+$ npm run test
 ```
 
 ## Related Resources
