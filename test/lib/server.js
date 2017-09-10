@@ -33,22 +33,34 @@ gjbj2tDc65zTSnw9fHbz9gUkANNs+v8AvY8OIJ8CBqTcPusvqsdkxfYl4IHwGxjP
 9f1/0rFNoJsa66vNU85QH1Qhw+CT8SE2+H/WLxOPnVKvtodNrwYp
 -----END RSA PRIVATE KEY-----`;
 
-const server = new SFTPServer({
-    'port': 4000,
-    'api_port': 8000,
-    'api_key': 'yYNR8xeUGtcim7XYaUTsdfmkNuKxLHjw77MbPMkZzKoNdsAzyMryVLJEzjVMHpHM',
-    'hostKeys': [
-        privateKey
-    ],
-    'dataDirectory': path.resolve(__dirname, '../data'),
-    'auth': function(username, password) {
-        return Promise.resolve()
-            .then(() => {
-                if (username !== 'foo' || password !== 'bar') {
-                    throw new Error();
-                }
-            });
+const server = require('../../')({
+    'sftp': {
+        'port': 4000,
+        'hostKeys': [
+            privateKey
+        ],
+        'dataDirectory': path.resolve(__dirname, '../data'),
+        'auth': function(username, password) {
+            return Promise.resolve()
+                .then(() => {
+                    if (username !== 'foo' || password !== 'bar') {
+                        throw new Error();
+                    }
+                });
+        }
+    },
+    'api': {
+        'port': 8000,
+        'key': 'yYNR8xeUGtcim7XYaUTsdfmkNuKxLHjw77MbPMkZzKoNdsAzyMryVLJEzjVMHpHM'
+    },
+    'log': {
+        'console': {
+            'enabled': false
+        },
+        'file': {
+            'enabled': false
+        }
     }
-});
+})
 
 module.exports = server;

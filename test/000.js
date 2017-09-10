@@ -1,15 +1,15 @@
 'use strict';
 /* global mocha, describe, it */
 
+const Promise = require('bluebird');
+const fs = Promise.promisifyAll(require('fs-extra'));
 const Client = require('ssh2').Client;
 const assert = require('assert');
 const host = '127.0.0.1';
 const port = 4000;
 const username = 'foo';
 const password = 'bar';
-const server = require('./lib/server');
 const _ = require('lodash');
-const fs = require('../lib/fs');
 const path = require('path');
 const srcDataDir = path.resolve(__dirname, 'resources/data');
 const targetDataDir = path.resolve(__dirname, 'data');
@@ -22,6 +22,8 @@ const req = request.defaults({
     }
 });
 
+let server = require('./lib/server');
+
 describe('Test Suite', function() {
 
     this.timeout(5000);
@@ -32,6 +34,10 @@ describe('Test Suite', function() {
                 return fs.copyAsync(srcDataDir, targetDataDir);
             })
             .then(() => {
+                return server;
+            })
+            .then((res) => {
+                server = res;
                 server.on('ready', () => {
                     return done();
                 });
