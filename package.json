@@ -1,5 +1,5 @@
 {
-  "name": "sftp-api",
+  "name": "sftp-server",
   "version": "1.0.0",
   "description": "",
   "main": "lib/factory.js",
