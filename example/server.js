@@ -13,12 +13,24 @@ const server = require('../')({
         ],
         'dataDirectory': path.resolve(__dirname, '../data'),
         'auth': function(username, password) {
+
             return Promise.resolve()
                 .then(() => {
-                    if (username !== 'foo' || password !== 'bar') {
+
+                    if (username === 'foo' && password === 'bar') {
+                        return true;
+                    } else if (username === 'herp' && password === 'derp') {
+                        return {
+                            'permissions': {
+                                'MKDIR': false
+                            }
+                        };
+                    } else {
                         throw new Error();
                     }
+
                 });
+
         }
     },
     'api': {
