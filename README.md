@@ -45,7 +45,7 @@ const server = require('sftp-server')({
     }
 })
     .then((server) => {
-    
+
         server.on('ready', () => {
             // ...
         });
@@ -57,19 +57,19 @@ const server = require('sftp-server')({
         server.on('upload_complete', (data) => {
             // ...
         });
-        
+
         server.on('remove', (data) => {
             // ...
         });
-        
+
         server.on('mkdir', (data) => {
             // ...
         });
-        
+
         server.on('rmdir', (data) => {
             // ...
         });
-        
+
         server.on('rename', (data) => {
             // ...
         });
@@ -97,9 +97,9 @@ Optionally, you may choose to resolve the returned promise with an object descri
                     throw new Error();
                 }
                 return {
-                	'permissions': {
-						'MKDIR': false
-                	}
+                    'permissions': {
+                        'MKDIR': false
+                    }
                 };
             });
     }
