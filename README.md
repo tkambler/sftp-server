@@ -6,7 +6,7 @@ A Node.js-based SFTP server with an integrated REST API for querying users / fil
 
 Useful when you need to provide clients with a standardized interface for submitting files, data feeds, etc... to you.
 
-*This is a work in progress.*
+PR's are welcome.
 
 
 ## Example
@@ -14,49 +14,60 @@ Useful when you need to provide clients with a standardized interface for submit
 ```
 const fs = require('fs');
 const Promise = require('bluebird');
-const SFTPServer = require('sftp-server');
 const path = require('path');
 
-const server = new SFTPServer({
-    'port': 3333,
-    'api_port': 8000,
-    'api_key': 'yYNR8xeUGtcim7XYaUTsdfmkNuKxLHjw77MbPMkZzKoNdsAzyMryVLJEzjVMHpHM',
-    'hostKeys': [
-        fs.readFileSync(__dirname + '/host_rsa')
-    ],
-    'dataDirectory': path.resolve(__dirname, '../data'),
-    'auth': function(username, password) {
-        return Promise.resolve()
-            .then(() => {
-                if (username !== 'foo' || password !== 'bar') {
-                    throw new Error();
-                }
-            });
+const server = require('sftp-server')({
+    'sftp': {
+        'port': 3333,
+        'hostKeys': [
+            fs.readFileSync(__dirname + '/host_rsa').toString('utf8')
+        ],
+        'dataDirectory': path.resolve(__dirname, '../data'),
+        'auth': function(username, password) {
+            return Promise.resolve()
+                .then(() => {
+                    if (username !== 'foo' || password !== 'bar') {
+                        throw new Error();
+                    }
+                });
+        }
+    },
+    'api': {
+        'port': 8000,
+        'key': 'yYNR8xeUGtcim7XYaUTsdfmkNuKxLHjw77MbPMkZzKoNdsAzyMryVLJEzjVMHpHM'
     },
     'log': {
         'console': {
-            'enabled': false
+            'enabled': true
         },
         'file': {
             'enabled': true,
-            'filename': '/var/log/sftp-server/log.json'
+            'filename': '/var/log/sftp-server.log'
         }
     }
-});
+})
+    .then((server) => {
 
-server.on('listening', (data) => {
-    console.log('listening', data);
-});
+        server.on('listening', (data) => {
+            // ...
+        });
 
-server.on('login', (data) => {
-    console.log('login', data);
-});
+        server.on('login', (data) => {
+            // ...
+        });
 
-server.on('upload_complete', (data) => {
-    console.log('upload_complete', data);
-});
+        server.on('upload_complete', (data) => {
+            // ...
+        });
 
-server.listen();
+        server.on('ready', () => {
+            // ...
+        });
+
+        server.listen();
+
+    });
+
 ```
 
 ## REST API
@@ -76,12 +87,13 @@ $ docker build -t sftp-server:latest .
 $ docker run --rm -v $(pwd)/example/server.js:/opt/sftp-server/example/server.js sftp-server:latest
 ```
 
-## ToDo
+## To-Do
 
 - Additional tests
 - Additional logging
 - Additional work on REST API
 - Improved support for various SFTP commands (FSTAT, etc...)
+- Support for user-specific permissions (can the user upload files / create directories / etc...?)
 - Docker image
 
 ## Development
