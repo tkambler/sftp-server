@@ -95,6 +95,7 @@ $ docker run --rm -v $(pwd)/example/server.js:/opt/sftp-server/example/server.js
 - Improved support for various SFTP commands (FSTAT, etc...)
 - Support for user-specific permissions (can the user upload files / create directories / etc...?)
 - Docker image
+- Fix sub-directory upload bug (when uploading a file to a sub-directory the client has created, the file is always uploaded to the root folder)
 
 ## Development
 
