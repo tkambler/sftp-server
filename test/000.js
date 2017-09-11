@@ -22,6 +22,24 @@ const req = request.defaults({
     }
 });
 
+function createLargeTmpFile() {
+    const src = path.resolve(__dirname, 'resources/misc/lorem.txt');
+    const srcData = fs.readFileSync(src, 'utf8');
+    const largeFile = path.resolve(__dirname, '.tmp/large.txt');
+    fs.ensureDirSync(path.dirname(largeFile));
+    try {
+        fs.accessSync(largeFile);
+    } catch(e) {
+        let tmpSize = 0;
+        while (tmpSize < 10000000) {
+            fs.appendFileSync(largeFile, srcData);
+            tmpSize = fs.statSync(largeFile).size;
+        }
+    }
+}
+
+createLargeTmpFile();
+
 let server = require('./lib/server');
 
 describe('Test Suite', function() {
@@ -46,6 +64,7 @@ describe('Test Suite', function() {
     });
 
     after(function(done) {
+        return done();
         fs.removeAsync(targetDataDir)
             .then(() => {
                 return done();
@@ -106,7 +125,7 @@ describe('Test Suite', function() {
                             return done(err);
                         }
                         assert(list.length === 1);
-                        assert(_.find(list, { 'filename': 'hello-world.txt' }))
+                        assert(_.find(list, { 'filename': 'hello-world.txt' }));
                         conn.end();
                         done();
                     });
@@ -123,7 +142,7 @@ describe('Test Suite', function() {
 
         });
 
-        it('Should allow you to upload files', function(done) {
+        it('Should allow you to upload files (small)', function(done) {
 
             const conn = new Client();
 
@@ -141,7 +160,43 @@ describe('Test Suite', function() {
                                 return done(err);
                             }
                             assert(list.length === 2);
-                            assert(_.find(list, { 'filename': 'foo.txt' }))
+                            assert(_.find(list, { 'filename': 'foo.txt' }));
+                            conn.end();
+                            done();
+                        });
+                    });
+                });
+
+            });
+
+            conn.connect({
+                'host': host,
+                'port': port,
+                'username': username,
+                'password': password
+            });
+
+        });
+
+        it('Should allow you to upload files (large)', function(done) {
+
+            const conn = new Client();
+
+            conn.on('ready', () => {
+                conn.sftp((err, sftp) => {
+                    if (err) {
+                        return done(err);
+                    }
+                    return sftp.fastPut(path.resolve(__dirname, '.tmp/large.txt'), '/large.txt', (err) => {
+                        if (err) {
+                            return done(err);
+                        }
+                        return sftp.readdir('.', (err, list) => {
+                            if (err) {
+                                return done(err);
+                            }
+                            assert(list.length === 3);
+                            assert(_.find(list, { 'filename': 'large.txt' }));
                             conn.end();
                             done();
                         });
