@@ -4,3 +4,4 @@ node_modules
 tmp
 data
 test/.tmp
+example/log

@@ -83,9 +83,66 @@ const server = require('sftp-server')({
     
 ### Fetch and Manipulate Files / Folders
 
-	# Fetch files at the root level of the specified user's (foo) folder:
+The URLs for all API calls related to file / folder interactions are structured in the following manner:
+
+http://[hostname]:[port]/api/users/[username]/files/[path-to-file]
+
+#### Fetching a list of files at the root level of a user's folder
+
+
     $ curl -X GET --header "x-token: yYNR8xeUGtcim7XYaUTsdfmkNuKxLHjw77MbPMkZzKoNdsAzyMryVLJEzjVMHpHM" \ 
     	http://127.0.0.1:8000/api/users/foo/files
+
+```
+[
+    {
+        "file": ".viminfo",
+        "stats": {
+            "dev": 16777224,
+            "mode": 33188,
+            "nlink": 1,
+            "uid": 501,
+            "gid": 20,
+            "rdev": 0,
+            "blksize": 4096,
+            "ino": 117661849,
+            "size": 9171,
+            "blocks": 24,
+            "atime": "2017-09-11T13:58:58.000Z",
+            "mtime": "2017-09-11T00:42:45.000Z",
+            "ctime": "2017-09-11T00:42:45.000Z",
+            "birthtime": "2017-09-11T00:42:45.000Z",
+            "isFile": true,
+            "isDirectory": false
+        }
+    },
+    {
+        "file": "herp",
+        "stats": {
+            "dev": 16777224,
+            "mode": 16877,
+            "nlink": 3,
+            "uid": 501,
+            "gid": 20,
+            "rdev": 0,
+            "blksize": 4096,
+            "ino": 117690342,
+            "size": 102,
+            "blocks": 0,
+            "atime": "2017-09-11T14:00:44.000Z",
+            "mtime": "2017-09-11T13:59:05.000Z",
+            "ctime": "2017-09-11T13:59:05.000Z",
+            "birthtime": "2017-09-11T13:58:58.000Z",
+            "isFile": false,
+            "isDirectory": true
+        }
+    }
+]
+```
+
+#### Addressing Specific Files / Sub-Directories
+
+Specific files / sub-directories can be addressed by appending the desired path to the URL we saw in the previous example.
 
 	# Fetch files within the 'herp' subdirectory of the specified user's (foo) folder:
     $ curl -X GET --header "x-token: yYNR8xeUGtcim7XYaUTsdfmkNuKxLHjw77MbPMkZzKoNdsAzyMryVLJEzjVMHpHM" \ 
@@ -102,6 +159,57 @@ const server = require('sftp-server')({
 	# Delete a specific file:
     $ curl -X DELETE --header "x-token: yYNR8xeUGtcim7XYaUTsdfmkNuKxLHjw77MbPMkZzKoNdsAzyMryVLJEzjVMHpHM" \ 
     	http://127.0.0.1:8000/api/users/foo/files/herp/derp.txt
+    	
+#### Fetching User Meta Information
+
+To fetch meta information for a file or folder, append `?meta=true` to the appropriate GET call. For example - to fetch meta information regarding a user's root folder, you would make the following call:
+
+```
+$ curl -X GET --header "x-token: yYNR8xeUGtcim7XYaUTsdfmkNuKxLHjw77MbPMkZzKoNdsAzyMryVLJEzjVMHpHM" \ 
+	http://127.0.0.1:8000/api/users/foo/files?meta=true
+```
+
+Returns:
+
+```
+{
+    "dev": 16777224,
+    "mode": 16877,
+    "nlink": 6,
+    "uid": 501,
+    "gid": 20,
+    "rdev": 0,
+    "blksize": 4096,
+    "ino": 117649567,
+    "size": 204,
+    "blocks": 0,
+    "atime": "2017-09-11T14:40:17.000Z",
+    "mtime": "2017-09-11T13:58:58.000Z",
+    "ctime": "2017-09-11T13:58:58.000Z",
+    "birthtime": "2017-09-10T20:02:42.000Z",
+    "isFile": false,
+    "isDirectory": true,
+    "totalSize": 10017653
+}
+```
+
+The `totalSize` property indicates the total combined size of all files / directories contained within the specified directory. When metadata is fetched for a specific file, this attribute will not be present.
+
+#### Fetching System Meta Information
+
+```
+$ curl -X GET --header "x-token: yYNR8xeUGtcim7XYaUTsdfmkNuKxLHjw77MbPMkZzKoNdsAzyMryVLJEzjVMHpHM" \
+	http://127.0.0.1:8000/api/system/meta
+```
+
+Returns:
+
+```
+{
+    "totalUsers": 1,
+    "totalStorage": 10023937
+}
+```
 
 ## Docker
 

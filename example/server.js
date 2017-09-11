@@ -30,8 +30,8 @@ const server = require('../')({
             'enabled': true
         },
         'file': {
-            'enabled': true,
-            'filename': '/var/log/sftp-server/log.json'
+            'enabled': false,
+            'filename':path.resolve(__dirname, 'log/sftp-server.log')
         }
     }
 })
