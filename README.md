@@ -78,7 +78,30 @@ const server = require('sftp-server')({
 
 ### Fetch Users
 
-    $ curl -X GET --header "x-token: yYNR8xeUGtcim7XYaUTsdfmkNuKxLHjw77MbPMkZzKoNdsAzyMryVLJEzjVMHpHM" http://127.0.0.1:8000/api/users
+    $ curl -X GET --header "x-token: yYNR8xeUGtcim7XYaUTsdfmkNuKxLHjw77MbPMkZzKoNdsAzyMryVLJEzjVMHpHM" \
+    	http://127.0.0.1:8000/api/users
+    
+### Fetch and Manipulate Files / Folders
+
+	# Fetch files at the root level of the specified user's (foo) folder:
+    $ curl -X GET --header "x-token: yYNR8xeUGtcim7XYaUTsdfmkNuKxLHjw77MbPMkZzKoNdsAzyMryVLJEzjVMHpHM" \ 
+    	http://127.0.0.1:8000/api/users/foo/files
+
+	# Fetch files within the 'herp' subdirectory of the specified user's (foo) folder:
+    $ curl -X GET --header "x-token: yYNR8xeUGtcim7XYaUTsdfmkNuKxLHjw77MbPMkZzKoNdsAzyMryVLJEzjVMHpHM" \ 
+    	http://127.0.0.1:8000/api/users/foo/files/herp
+    	
+	# Delete the 'herp' subdirectory of the specified user's (foo) folder:
+    $ curl -X DELETE --header "x-token: yYNR8xeUGtcim7XYaUTsdfmkNuKxLHjw77MbPMkZzKoNdsAzyMryVLJEzjVMHpHM" \ 
+    	http://127.0.0.1:8000/api/users/foo/files/herp
+    	
+	# Fetch a specific file:
+    $ curl -X GET --header "x-token: yYNR8xeUGtcim7XYaUTsdfmkNuKxLHjw77MbPMkZzKoNdsAzyMryVLJEzjVMHpHM" \ 
+    	http://127.0.0.1:8000/api/users/foo/files/herp/derp.txt
+    	
+	# Delete a specific file:
+    $ curl -X DELETE --header "x-token: yYNR8xeUGtcim7XYaUTsdfmkNuKxLHjw77MbPMkZzKoNdsAzyMryVLJEzjVMHpHM" \ 
+    	http://127.0.0.1:8000/api/users/foo/files/herp/derp.txt
 
 ## Docker
 
