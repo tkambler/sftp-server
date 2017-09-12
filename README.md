@@ -288,6 +288,7 @@ $ npm run test
 ## Related Resources
 
 - [ssh2](https://github.com/mscdex/ssh2)
+- [Managed File Transfer (MFT)](https://en.wikipedia.org/wiki/Managed_file_transfer)
 
 ## Tests
 
