@@ -239,10 +239,30 @@ describe('Test Suite', function() {
                 });
         });
 
+        it('Should return system metadata', function() {
+            return req.get('/api/system/meta')
+                .then((data) => {
+                    assert(_.isPlainObject(data));
+                    assert(!_.isUndefined(data.totalUsers));
+                    assert(!_.isUndefined(data.totalStorage));
+                });
+        });
+
         it('Should list users', function() {
             return req.get('/api/users')
                 .then((users) => {
                     assert(_.isEqual(users, ['foo']));
+                });
+        });
+
+        it('Should return user metadata', function() {
+            return req.get('/api/users/foo/files', {
+                'qs': {
+                    'meta': ''
+                }
+            })
+                .then((data) => {
+                    assert(_.isArray(data));
                 });
         });
 
