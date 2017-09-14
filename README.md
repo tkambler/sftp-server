@@ -86,6 +86,8 @@ SFTPServer has no built-in mechanism for managing users. The expectation is that
 
 Authentication is implemented by including a callback function (`sftp.auth`) within the options that are passed when creating a new instance of SFTPServer (see previous example). When a user attempts to sign in, this function will be passed the username and password provided by the client. A promise should be returned.  A rejected promise indicates a sign-in failure, while a resolution indicates success.
 
+Once authenticated, a user is only allowed to interact with files that belong to them. User `A` cannot see user `B`'s files, and vice-versa.
+
 Optionally, you may choose to resolve the returned promise with an object describing the various SFTP commands that the connecting client should be allowed to perform. By default, _all_ commands are enabled. Select commands can be individually disabled as shown below.
 
 ```
