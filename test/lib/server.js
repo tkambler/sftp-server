@@ -47,7 +47,8 @@ const server = require('../../')({
                         throw new Error();
                     }
                 });
-        }
+        },
+        'rateLimitTTL': 3
     },
     'api': {
         'port': 8000,

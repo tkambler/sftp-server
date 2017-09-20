@@ -44,7 +44,7 @@ let server = require('./lib/server');
 
 describe('Test Suite', function() {
 
-    this.timeout(5000);
+    this.timeout(7000);
 
     before(function(done) {
         fs.removeAsync(targetDataDir)
@@ -90,26 +90,49 @@ describe('Test Suite', function() {
 
         });
 
-//         it('Should fail to connect when given the wrong username / password', function(done) {
-//
-//             const conn = new Client();
-//
-//             conn.on('ready', () => {
-//                 return done('Connection established');
-//             });
-//
-//             conn.on('error', (err) => {
-//                 return done();
-//             });
-//
-//             conn.connect({
-//                 'host': host,
-//                 'port': port,
-//                 'username': username,
-//                 'password': 'meh'
-//             });
-//
-//         });
+        it('Should fail to connect when given the wrong username / password', function(done) {
+
+            const conn = new Client();
+
+            conn.on('ready', () => {
+                return done('Connection established');
+            });
+
+            conn.on('error', (err) => {
+                return done();
+            });
+
+            conn.connect({
+                'host': host,
+                'port': port,
+                'username': username,
+                'password': 'meh'
+            });
+
+        });
+
+        it('Should prevent rate-limited clients from authenticating', function(done) {
+
+            const conn = new Client();
+
+            conn.on('ready', () => {
+                return done('Connection established');
+            });
+
+            conn.on('error', (err) => {
+                setTimeout(() => {
+                    return done();
+                }, 5000);
+            });
+
+            conn.connect({
+                'host': host,
+                'port': port,
+                'username': username,
+                'password': password
+            });
+
+        });
 
         it('Should list files', function(done) {
 
