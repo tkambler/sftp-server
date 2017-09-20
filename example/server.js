@@ -31,7 +31,8 @@ const server = require('../')({
 
                 });
 
-        }
+        },
+        'rateLimitTTL': 10
     },
     'api': {
         'port': 8000,

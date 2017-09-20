@@ -90,26 +90,26 @@ describe('Test Suite', function() {
 
         });
 
-        it('Should fail to connect when given the wrong username / password', function(done) {
-
-            const conn = new Client();
-
-            conn.on('ready', () => {
-                return done('Connection established');
-            });
-
-            conn.on('error', (err) => {
-                return done();
-            });
-
-            conn.connect({
-                'host': host,
-                'port': port,
-                'username': username,
-                'password': 'meh'
-            });
-
-        });
+//         it('Should fail to connect when given the wrong username / password', function(done) {
+//
+//             const conn = new Client();
+//
+//             conn.on('ready', () => {
+//                 return done('Connection established');
+//             });
+//
+//             conn.on('error', (err) => {
+//                 return done();
+//             });
+//
+//             conn.connect({
+//                 'host': host,
+//                 'port': port,
+//                 'username': username,
+//                 'password': 'meh'
+//             });
+//
+//         });
 
         it('Should list files', function(done) {
 

@@ -28,7 +28,12 @@ const server = require('sftp-server')({
                         throw new Error();
                     }
                 });
-        }
+        },
+        /**
+         * Block repeated authentication attempts from the same IP address within the specified
+         * window (in seconds).
+         */
+        'rateLimitTTL': 10
     },
     'api': {
         'port': 8000,
